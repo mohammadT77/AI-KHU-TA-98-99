@@ -1,7 +1,12 @@
-from typing import Dict, List
+from typing import Dict, List, Union
+
+from models import State
 
 
-def dfs_recursive(states: Dict[str, List[str]], start: str, goal: str, closed=None) -> List[str]:
+def dfs_recursive(states: Dict[Union[str, State], List[Union[str, State]]],
+                  start: Union[str, State],
+                  goal: Union[str, State],
+                  closed=None) -> List[Union[str, State]]:
     if closed is None:
         closed = []
     # print('states:', states)
