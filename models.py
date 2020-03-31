@@ -1,68 +1,57 @@
-from abc import ABC, abstractmethod
-from collections.abc import Hashable
+from abc import ABC
 
 
-class State(Hashable, ABC):
+class State(ABC):
     __ID: int = 0
 
     def __init__(self):
         State.__ID += 1
-        self.__ID = State.__ID
+        self._id = State.__ID
 
     @property
     def id(self):
-        return self.__ID
+        return self._id
 
     @id.getter
-    def id(self):
-        return int(self.__ID)
-
-    def __eq__(self, other):
-        try:
-            return other.id == self.id
-        except:
-            return False
+    def id(self) -> int:
+        return self._id
 
     def __str__(self):
-        return "<State #" + str(self.id) + ">"
+        return "<State #"+str(self.id)+">"
 
-    @abstractmethod
-    def __hash__(self):
-        return self.id
+
 
 
 class NodeState(State):
     _name: str
 
-    def __init__(self, name: str):
+    def __init__(self, name):
         super().__init__()
-        self.name = name.upper()
+        self.name = name
 
     @property
     def name(self):
         return self._name
 
+    @name.setter
+    def name(self, n: str) -> None:
+        self._name = str(n).upper()
+
     @name.getter
-    def name(self):
+    def name(self) -> str:
         return self._name
 
-    @name.setter
-    def name(self, name: str):
-        self._name = str(name).upper()
+    def __str__(self):
+        return f"<NodeState #{self.id}: {self.name}>"  # <NodeState #1: name>
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         try:
             return other.name == self.name
         except:
             return False
 
-    def __str__(self):
-        return f"<NodeState #{self.id}: {self.name}>"
+    def __hash__(self) -> int:
+        return self.id
 
-    def __hash__(self):
-        return super().__hash__()
-
-
-class Problem(dict):
+class Problem:
     pass
-
